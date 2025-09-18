@@ -1,7 +1,9 @@
 import os
 import uuid
+import json
 from datetime import datetime
 from google.cloud import storage
+from google.oauth2 import service_account
 from PIL import Image
 import io
 
@@ -14,7 +16,17 @@ class GCSManager:
 
         if self.project_id and self.bucket_name:
             try:
-                self.client = storage.Client(project=self.project_id)
+                # Try to get credentials from JSON environment variable first
+                credentials_json = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS_JSON')
+                if credentials_json:
+                    # Use JSON credentials from environment variable
+                    credentials_info = json.loads(credentials_json)
+                    credentials = service_account.Credentials.from_service_account_info(credentials_info)
+                    self.client = storage.Client(project=self.project_id, credentials=credentials)
+                else:
+                    # Fallback to default credentials (file path)
+                    self.client = storage.Client(project=self.project_id)
+
                 self.bucket = self.client.bucket(self.bucket_name)
             except Exception as e:
                 print(f"Warning: Could not initialize GCS client: {e}")
