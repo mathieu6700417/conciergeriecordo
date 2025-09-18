@@ -18,6 +18,11 @@ COPY . .
 # Create uploads directory
 RUN mkdir -p uploads
 
-EXPOSE 5000
+EXPOSE 8080
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+# Make entrypoint script executable
+COPY scripts/entrypoint.sh /app/scripts/entrypoint.sh
+RUN chmod +x /app/scripts/entrypoint.sh
+
+# Use entrypoint to run migrations before starting the app
+CMD ["/app/scripts/entrypoint.sh"]

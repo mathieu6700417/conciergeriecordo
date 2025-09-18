@@ -2,6 +2,7 @@
 
 app = "conciergerie-cordo"
 primary_region = "cdg"
+console_command = "/bin/bash"
 
 [build]
 
@@ -59,4 +60,4 @@ primary_region = "cdg"
 [[vm]]
   cpu_kind = "shared"
   cpus = 1
-  memory_mb = 256
+  memory_mb = 512

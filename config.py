@@ -5,7 +5,11 @@ load_dotenv()
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'postgresql://postgres:postgres@localhost:5432/conciergerie_cordo'
+    # Fix pour Fly.io qui utilise postgres:// au lieu de postgresql://
+    database_url = os.environ.get('DATABASE_URL')
+    if database_url and database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    SQLALCHEMY_DATABASE_URI = database_url or 'postgresql://postgres:postgres@localhost:5432/conciergerie_cordo'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Stripe
