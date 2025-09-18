@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-4">
+                <h1 class="display-4 fw-bold mb-4 mt-5">
                     Service de cordonnerie<br>
                     <span class="text-warning">en conciergerie</span>
                 </h1>
@@ -17,6 +17,9 @@
                 <a href="{{ url_for('main.choix_prestation') }}" class="btn btn-warning btn-lg px-4 py-3">
                     <i class="bi bi-plus-circle me-2"></i>Commander maintenant
                 </a>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="bi bi-truck text-warning" style="font-size: 8rem; opacity: 0.8;"></i>
             </div>
         </div>
     </div>
@@ -34,67 +37,49 @@
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                            <i class="bi bi-hammer text-primary fs-4"></i>
-                        </div>
-                        <h5 class="card-title">Patin</h5>
-                        <p class="card-text">Réparation et remplacement de patins pour chaussures homme et femme.</p>
+                    <div class="card-body p-4">
+                        <h5 class="card-title text-primary">Patin</h5>
+                        <p class="card-text">Réparation et remplacement de patins pour chaussures homme et femme. Redonnez une seconde vie à vos chaussures préférées.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                            <i class="bi bi-arrow-up text-primary fs-4"></i>
-                        </div>
-                        <h5 class="card-title">Talon</h5>
-                        <p class="card-text">Réparation et changement de talons, remise en forme.</p>
+                    <div class="card-body p-4">
+                        <h5 class="card-title text-primary">Talon</h5>
+                        <p class="card-text">Réparation et changement de talons pour chaussures homme et femme. Remise en forme et remplacement complet selon vos besoins.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                            <i class="bi bi-circle text-primary fs-4"></i>
-                        </div>
-                        <h5 class="card-title">Patin Gomme</h5>
-                        <p class="card-text">Pose de patins en gomme antidérapante pour plus d'adhérence.</p>
+                    <div class="card-body p-4">
+                        <h5 class="card-title text-primary">Patin Gomme</h5>
+                        <p class="card-text">Pose de patins en gomme antidérapante pour chaussures homme et femme. Amélioration de l'adhérence et du confort.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                            <i class="bi bi-circle-fill text-primary fs-4"></i>
-                        </div>
-                        <h5 class="card-title">Talon Gomme</h5>
-                        <p class="card-text">Installation de talons en gomme pour un meilleur confort.</p>
+                    <div class="card-body p-4">
+                        <h5 class="card-title text-primary">Talon Gomme</h5>
+                        <p class="card-text">Installation de talons en gomme pour chaussures homme et femme. Solution durable pour un meilleur confort de marche.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                            <i class="bi bi-arrow-clockwise text-primary fs-4"></i>
-                        </div>
-                        <h5 class="card-title">Resemmelage Complet</h5>
-                        <p class="card-text">Resemmelage complet pour baskets et chaussures de sport.</p>
+                    <div class="card-body p-4">
+                        <h5 class="card-title text-primary">Resemmelage Complet Basket</h5>
+                        <p class="card-text">Resemmelage complet pour baskets et chaussures de sport homme et femme. Rénovation totale de la semelle.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                            <i class="bi bi-truck text-warning fs-4"></i>
-                        </div>
-                        <h5 class="card-title">Service Conciergerie</h5>
-                        <p class="card-text">Récupération et livraison directement dans votre entreprise.</p>
+                    <div class="card-body p-4">
+                        <h5 class="card-title text-warning">Service Conciergerie</h5>
+                        <p class="card-text">Récupération et livraison directement dans votre entreprise. Un service complet de porte à porte pour votre tranquillité.</p>
                     </div>
                 </div>
             </div>
@@ -180,8 +165,8 @@
                     <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
                         <span class="fs-3 fw-bold">2</span>
                     </div>
-                    <h5>Photographiez vos chaussures</h5>
-                    <p>Prenez une photo de chaque paire et sélectionnez les services souhaités.</p>
+                    <h5>Entrez vos demandes</h5>
+                    <p>Entrez les services souhaités pour vos paires de chaussures.</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -205,7 +190,7 @@
                 <h2 class="fw-bold mb-4">Prêt à commander ?</h2>
                 <p class="lead mb-4">Simplifiez l'entretien de vos chaussures dès aujourd'hui</p>
                 <a href="{{ url_for('main.choix_prestation') }}" class="btn btn-warning btn-lg px-5 py-3">
-                    <i class="bi bi-camera me-2"></i>Prendre une photo et commander
+Choisir une prestation
                 </a>
             </div>
         </div>

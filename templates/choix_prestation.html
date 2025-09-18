@@ -6,8 +6,8 @@
 <div class="container py-4">
     <div class="row">
         <div class="col-12">
-            <h1 class="h3 mb-4 text-center">
-                <i class="bi bi-camera me-2"></i>Nouvelle Commande
+            <h1 class="h3 mb-4 mt-5 text-center">
+                Nouvelle Commande
             </h1>
         </div>
     </div>
@@ -47,19 +47,19 @@
                             <!-- Les paires seront ajoutées ici dynamiquement -->
                         </div>
 
-                        <!-- Bouton ajouter paire -->
-                        <div class="text-center mt-4">
-                            <button type="button" class="btn btn-primary btn-lg" id="btn-ajouter-paire">
-                                <i class="bi bi-plus-lg me-2"></i>Ajouter une paire
-                            </button>
-                        </div>
-
                         <!-- Navigation -->
-                        <div class="d-flex justify-content-end mt-4">
-                            <button type="button" class="btn btn-success btn-lg" id="btn-valider-paires" disabled>
-                                Valider et continuer
-                                <i class="bi bi-arrow-right ms-2"></i>
-                            </button>
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <button type="button" class="btn btn-primary btn-lg w-100" id="btn-ajouter-paire">
+                                    <i class="bi bi-plus-lg me-2"></i>Ajouter une paire
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-success btn-lg w-100" id="btn-valider-paires" disabled>
+                                    Continuer
+                                    <i class="bi bi-arrow-right ms-2"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -141,16 +141,6 @@
                         </div>
                     </div>
 
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title mb-4">
-                                <i class="bi bi-credit-card me-2"></i>Paiement sécurisé
-                            </h5>
-                            <div id="stripe-elements">
-                                <!-- Stripe Elements sera injecté ici -->
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="col-lg-4">

@@ -6,13 +6,14 @@ class OrderManager {
         this.prestations = {};
         this.currentStep = 1;
         this.currentPaireIndex = -1;
+        this.storageKey = 'conciergerie_commande_draft';
 
         this.initializeElements();
         this.bindEvents();
         this.loadPrestationsFromTemplate();
 
-        // Ajouter automatiquement la première paire
-        this.ajouterPaire();
+        // Load saved data or create first pair
+        this.loadFromStorage();
     }
 
     initializeElements() {
@@ -66,7 +67,10 @@ class OrderManager {
 
         // Listen for form input changes
         if (this.formCommande) {
-            this.formCommande.addEventListener('input', () => this.validatePaymentForm());
+            this.formCommande.addEventListener('input', () => {
+                this.validatePaymentForm();
+                this.saveToStorage(); // Save client info as user types
+            });
         }
     }
 
@@ -100,6 +104,7 @@ class OrderManager {
         this.paires.push(paire);
         this.renderPaire(paire, index);
         this.updateValidationButton();
+        this.saveToStorage();
 
         // Scroll to new paire
         setTimeout(() => {
@@ -111,68 +116,101 @@ class OrderManager {
     }
 
     renderPaire(paire, index) {
+        const isValidated = paire.validated;
+        const isCollapsed = paire.collapsed;
+
         const paireHtml = `
-            <div class="paire-card" data-paire-id="${paire.id}">
+            <div class="paire-card ${isValidated ? 'validated' : ''} ${isCollapsed ? 'collapsed' : ''}" data-paire-id="${paire.id}">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="mb-0">Paire ${index + 1}</h6>
-                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="orderManager.supprimerPaire('${paire.id}')">
-                        <i class="bi bi-trash"></i>
-                    </button>
+                    <div class="btn-group">
+                        ${isValidated ? `
+                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="orderManager.editerPaire('${paire.id}')" style="display: ${isCollapsed ? 'inline-block' : 'none'};">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        ` : ''}
+                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="orderManager.supprimerPaire('${paire.id}')">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="row g-3">
-                    <!-- Type et services -->
-                    <div class="col-12">
-                        <!-- Type de chaussure -->
-                        <div class="mb-3">
-                            <label class="form-label">Type de chaussure *</label>
-                            <div class="btn-group w-100" role="group">
-                                <input type="radio" class="btn-check" name="type-${paire.id}" id="homme-${paire.id}" value="HOMME" ${paire.type_chaussure === 'HOMME' ? 'checked' : ''}>
-                                <label class="btn btn-outline-primary" for="homme-${paire.id}">Homme</label>
-
-                                <input type="radio" class="btn-check" name="type-${paire.id}" id="femme-${paire.id}" value="FEMME" ${paire.type_chaussure === 'FEMME' ? 'checked' : ''}>
-                                <label class="btn btn-outline-primary" for="femme-${paire.id}">Femme</label>
+                <!-- Collapsed view for validated pairs -->
+                ${isValidated && isCollapsed ? `
+                    <div class="collapsed-view">
+                        <div class="row align-items-center">
+                            <div class="col-3">
+                                <img src="${paire.photo_url}" class="img-fluid rounded" alt="Paire ${index + 1}" style="max-height: 60px; object-fit: cover;">
+                            </div>
+                            <div class="col-9">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-primary">${paire.type_chaussure === 'HOMME' ? 'Homme' : 'Femme'}</span>
+                                        <span class="ms-2">${this.getSelectedServicesNames(paire).join(', ')}</span>
+                                    </div>
+                                    <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Validée</span>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                ` : ''}
 
-                        <!-- Services -->
-                        <div class="mb-3">
-                            <label class="form-label">Services *</label>
-                            <div id="services-${paire.id}">
-                                ${this.renderServices(paire)}
+                <!-- Full view -->
+                <div class="full-view" style="display: ${isValidated && isCollapsed ? 'none' : 'block'};">
+                    <div class="row g-3">
+                        <!-- Type et services -->
+                        <div class="col-12">
+                            <!-- Type de chaussure -->
+                            <div class="mb-3">
+                                <label class="form-label">Type de chaussure *</label>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" name="type-${paire.id}" id="homme-${paire.id}" value="HOMME" ${paire.type_chaussure === 'HOMME' ? 'checked' : ''}>
+                                    <label class="btn btn-outline-primary" for="homme-${paire.id}">Homme</label>
+
+                                    <input type="radio" class="btn-check" name="type-${paire.id}" id="femme-${paire.id}" value="FEMME" ${paire.type_chaussure === 'FEMME' ? 'checked' : ''}>
+                                    <label class="btn btn-outline-primary" for="femme-${paire.id}">Femme</label>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Description optionnelle -->
-                        <div class="mb-3" id="description-container-${paire.id}" style="display: none;">
-                            <label class="form-label">Description (requis pour devis)</label>
-                            <textarea class="form-control" id="description-${paire.id}" rows="2" placeholder="Décrivez les détails pour le devis...">${paire.description}</textarea>
-                        </div>
-
-                        <!-- Photo -->
-                        <div class="mb-3">
-                            <label class="form-label">Photo de la paire *</label>
-                            <div class="photo-upload-area ${paire.photo_url ? 'has-photo' : ''}" onclick="orderManager.ouvrirCamera('${paire.id}')">
-                                ${paire.photo_url ?
-                                    `<img src="${paire.photo_url}" class="paire-photo" alt="Photo paire ${index + 1}">` :
-                                    `<div>
-                                        <i class="bi bi-camera fs-1 text-muted mb-2"></i>
-                                        <p class="text-muted mb-0">Prendre une photo</p>
-                                        <small class="text-muted">Obligatoire</small>
-                                    </div>`
-                                }
+                            <!-- Services -->
+                            <div class="mb-3">
+                                <label class="form-label">Services *</label>
+                                <div id="services-${paire.id}">
+                                    ${this.renderServices(paire)}
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Bouton de validation de la paire -->
-                        <div class="text-end mb-3">
-                            <button type="button"
-                                    class="btn btn-success paire-validate-btn"
-                                    id="validate-${paire.id}"
-                                    onclick="orderManager.validerPaire('${paire.id}')"
-                                    disabled>
-                                <i class="bi bi-check-circle me-2"></i>Valider cette paire
-                            </button>
+                            <!-- Description optionnelle -->
+                            <div class="mb-3" id="description-container-${paire.id}" style="display: none;">
+                                <label class="form-label">Description (requis pour devis)</label>
+                                <textarea class="form-control" id="description-${paire.id}" rows="2" placeholder="Décrivez les détails pour le devis...">${paire.description}</textarea>
+                            </div>
+
+                            <!-- Photo -->
+                            <div class="mb-3" id="photo-container-${paire.id}" style="display: ${paire.prestations.length > 0 ? 'block' : 'none'};">
+                                <label class="form-label">Photo de la paire *</label>
+                                <div class="photo-upload-area ${paire.photo_url ? 'has-photo' : ''}" onclick="orderManager.ouvrirCamera('${paire.id}')">
+                                    ${paire.photo_url ?
+                                        `<img src="${paire.photo_url}" class="paire-photo" alt="Photo paire ${index + 1}">` :
+                                        `<div>
+                                            <i class="bi bi-camera fs-1 text-muted mb-2"></i>
+                                            <p class="text-muted mb-0">Prendre une photo</p>
+                                            <small class="text-muted">Obligatoire</small>
+                                        </div>`
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Bouton de validation de la paire -->
+                            <div class="text-center mb-3">
+                                <button type="button"
+                                        class="btn btn-success btn-lg paire-validate-btn w-75"
+                                        id="validate-${paire.id}"
+                                        onclick="orderManager.validerPaire('${paire.id}')"
+                                        disabled>
+                                    <i class="bi bi-check-circle me-2"></i>Valider cette paire
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -189,6 +227,9 @@ class OrderManager {
 
         // Update description field visibility
         this.updateDescriptionVisibility(paire.id);
+
+        // Update photo field visibility
+        this.updatePhotoVisibility(paire.id);
     }
 
     bindPaireEvents(paireId) {
@@ -203,6 +244,8 @@ class OrderManager {
                     this.updateServicesForPaire(paireId);
                     this.updatePaireValidationButton(paireId);
                     this.updateValidationButton();
+                    this.updatePhotoVisibility(paireId);
+                    this.saveToStorage();
                 }
             });
         });
@@ -214,6 +257,7 @@ class OrderManager {
                 const paire = this.paires.find(p => p.id === paireId);
                 if (paire) {
                     paire.description = descriptionTextarea.value;
+                    this.saveToStorage();
                 }
             });
         }
@@ -267,6 +311,8 @@ class OrderManager {
         this.updatePaireValidationButton(paireId);
         this.updateValidationButton();
         this.updateDescriptionVisibility(paireId);
+        this.updatePhotoVisibility(paireId);
+        this.saveToStorage();
     }
 
     supprimerPaire(paireId) {
@@ -280,11 +326,12 @@ class OrderManager {
                 paireElement.remove();
             }
 
-            // Update validation button
-            this.updateValidationButton();
-
             // Re-render to update paire numbers
             this.renderAllPaires();
+
+            // Update validation button
+            this.updateValidationButton();
+            this.saveToStorage();
         }
     }
 
@@ -325,6 +372,7 @@ class OrderManager {
                 this.renderAllPaires();
                 this.updateValidationButton();
                 this.updatePaireValidationButton(paire.id);
+                this.saveToStorage();
             }
 
             this.photoModal.hide();
@@ -339,14 +387,18 @@ class OrderManager {
     }
 
     updateValidationButton() {
-        const isValid = this.paires.length > 0 && this.paires.every(paire =>
-            paire.type_chaussure &&
-            paire.photo_url &&
-            paire.prestations.length > 0
-        );
+        // Check if all pairs are validated
+        const allPairesValidated = this.paires.length > 0 && this.paires.every(paire => paire.validated);
 
+        // Hide/show "Valider et continuer" button
         if (this.btnValiderPaires) {
-            this.btnValiderPaires.disabled = !isValid;
+            this.btnValiderPaires.style.display = allPairesValidated ? 'inline-block' : 'none';
+            this.btnValiderPaires.disabled = !allPairesValidated;
+        }
+
+        // Hide/show "Ajouter une paire" button
+        if (this.btnAjouterPaire) {
+            this.btnAjouterPaire.style.display = allPairesValidated ? 'inline-block' : 'none';
         }
     }
 
@@ -399,9 +451,12 @@ class OrderManager {
             return;
         }
 
-        // Mark pair as validated
+        // Mark pair as validated and collapse it
         paire.validated = true;
-        this.updatePaireValidationButton(paireId);
+        paire.collapsed = true;
+        this.renderAllPaires(); // Re-render to show collapsed view
+        this.updateValidationButton(); // Update global buttons
+        this.saveToStorage();
         showToast('Paire validée avec succès', 'success');
     }
 
@@ -454,6 +509,24 @@ class OrderManager {
                 descriptionTextarea.value = '';
                 paire.description = '';
             }
+        }
+    }
+
+    updatePhotoVisibility(paireId) {
+        const paire = this.paires.find(p => p.id === paireId);
+        if (!paire) return;
+
+        const photoContainer = document.getElementById(`photo-container-${paireId}`);
+        if (!photoContainer) return;
+
+        // Show photo field only if at least one prestation is selected
+        const hasPrestation = paire.prestations.length > 0;
+        photoContainer.style.display = hasPrestation ? 'block' : 'none';
+
+        // Clear photo if hiding the field
+        if (!hasPrestation) {
+            paire.photo_url = '';
+            paire.photo_filename = '';
         }
     }
 
@@ -542,6 +615,131 @@ class OrderManager {
         return [...(this.prestations.HOMME || []), ...(this.prestations.FEMME || [])];
     }
 
+    getSelectedServicesNames(paire) {
+        return paire.prestations.map(prestationId => {
+            const prestation = this.getAllPrestations().find(p => p.id === prestationId);
+            return prestation ? prestation.nom : '';
+        }).filter(Boolean);
+    }
+
+    editerPaire(paireId) {
+        const paire = this.paires.find(p => p.id === paireId);
+        if (!paire) return;
+
+        // Expand the pair for editing
+        paire.validated = false;
+        paire.collapsed = false;
+
+        // Re-render to show full view
+        this.renderAllPaires();
+        this.updateValidationButton();
+        this.saveToStorage(); // Save changes
+
+        // Scroll to the pair
+        setTimeout(() => {
+            const paireElement = document.querySelector(`[data-paire-id="${paireId}"]`);
+            if (paireElement) {
+                paireElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 100);
+
+        showToast('Paire en mode édition', 'info');
+    }
+
+    // localStorage management
+    saveToStorage() {
+        try {
+            const data = {
+                paires: this.paires,
+                currentStep: this.currentStep,
+                clientInfo: this.getClientInfo(),
+                timestamp: Date.now()
+            };
+            localStorage.setItem(this.storageKey, JSON.stringify(data));
+        } catch (error) {
+            console.warn('Failed to save to localStorage:', error);
+        }
+    }
+
+    loadFromStorage() {
+        try {
+            const savedData = localStorage.getItem(this.storageKey);
+            if (savedData) {
+                const data = JSON.parse(savedData);
+
+                // Check if data is not too old (24 hours)
+                const maxAge = 24 * 60 * 60 * 1000; // 24 hours in ms
+                if (Date.now() - data.timestamp > maxAge) {
+                    this.clearStorage();
+                    this.ajouterPaire(); // Add first pair
+                    return;
+                }
+
+                // Restore data
+                this.paires = data.paires || [];
+                this.currentStep = data.currentStep || 1;
+
+                // Restore pairs
+                if (this.paires.length > 0) {
+                    this.renderAllPaires();
+                    this.updateValidationButton();
+                    this.allerEtape(this.currentStep);
+
+                    // Restore client info if on payment step
+                    if (this.currentStep === 3 && data.clientInfo) {
+                        this.setClientInfo(data.clientInfo);
+                    }
+
+                    // Update recap if on validation step
+                    if (this.currentStep === 2) {
+                        this.renderRecapitulatif();
+                    }
+
+                    showToast('Commande restaurée', 'info');
+                } else {
+                    this.ajouterPaire(); // Add first pair if none saved
+                }
+            } else {
+                this.ajouterPaire(); // Add first pair if no saved data
+            }
+        } catch (error) {
+            console.warn('Failed to load from localStorage:', error);
+            this.ajouterPaire(); // Add first pair on error
+        }
+    }
+
+    getClientInfo() {
+        if (!this.formCommande) return {};
+
+        const formData = new FormData(this.formCommande);
+        return {
+            nom: formData.get('nom') || '',
+            email: formData.get('email') || '',
+            telephone: formData.get('telephone') || '',
+            entreprise: formData.get('entreprise') || ''
+        };
+    }
+
+    setClientInfo(clientInfo) {
+        if (!this.formCommande || !clientInfo) return;
+
+        const fields = ['nom', 'email', 'telephone', 'entreprise'];
+        fields.forEach(field => {
+            const input = this.formCommande.querySelector(`[name="${field}"]`);
+            if (input && clientInfo[field]) {
+                input.value = clientInfo[field];
+            }
+        });
+    }
+
+    clearStorage() {
+        try {
+            localStorage.removeItem(this.storageKey);
+        } catch (error) {
+            console.warn('Failed to clear localStorage:', error);
+        }
+    }
+
     allerEtape(etape) {
         // Hide all steps
         document.querySelectorAll('.etape').forEach(el => el.classList.remove('active'));
@@ -568,6 +766,7 @@ class OrderManager {
         }
 
         this.currentStep = etape;
+        this.saveToStorage(); // Save current step
 
         // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -617,6 +816,9 @@ class OrderManager {
 
             // Create Stripe checkout session
             const checkoutResponse = await api.post(`/commande/${commande.id}/checkout`, {});
+
+            // Clear saved data since order is being processed
+            this.clearStorage();
 
             // Redirect to Stripe
             window.location.href = checkoutResponse.checkout_url;

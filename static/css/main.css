@@ -257,3 +257,37 @@ body {
 .btn[disabled]::before {
     display: none !important;
 }
+
+/* Collapsed pair styles */
+.paire-card.validated.collapsed {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-color: var(--success-color);
+}
+
+.paire-card.validated.collapsed .collapsed-view {
+    min-height: 60px;
+}
+
+.paire-card.validated.collapsed:hover {
+    border-color: var(--success-color);
+    box-shadow: 0 2px 8px rgba(25, 135, 84, 0.15);
+}
+
+.collapsed-view img {
+    border: 1px solid #dee2e6;
+}
+
+/* Smooth transitions for view switching */
+.full-view, .collapsed-view {
+    transition: all 0.3s ease;
+}
+
+/* Edit button styling */
+.btn-group .btn {
+    border-radius: 0.375rem !important;
+}
+
+.btn-group .btn:not(:last-child) {
+    margin-right: 0.25rem;
+}
