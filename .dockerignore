@@ -1,0 +1,14 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.git
+.gitignore
+README.md
+.env
+.DS_Store
+node_modules
+.coverage
+.nyc_output
+uploads/*
+!uploads/.gitkeep

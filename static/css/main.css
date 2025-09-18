@@ -1,0 +1,259 @@
+/* Base styles */
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+/* Hero section */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0056d3 100%);
+    min-height: 500px;
+}
+
+/* Step indicator */
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex: 1;
+    max-width: 150px;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.step.active .step-number {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.step.completed .step-number {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.step-text {
+    font-size: 0.9rem;
+    color: #6c757d;
+    text-align: center;
+}
+
+.step.active .step-text {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Étapes */
+.etape {
+    display: none;
+}
+
+.etape.active {
+    display: block;
+}
+
+/* Paire card */
+.paire-card {
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.paire-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
+}
+
+.paire-photo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+}
+
+.service-checkbox {
+    margin-bottom: 0.75rem;
+}
+
+.service-checkbox .form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.service-price {
+    font-weight: 600;
+    color: var(--success-color);
+}
+
+/* Camera modal */
+#camera-video {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+#photo-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Loading overlay */
+#loading-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .step-indicator {
+        gap: 0.5rem;
+    }
+
+    .step {
+        max-width: 100px;
+    }
+
+    .step-number {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+
+    .step-text {
+        font-size: 0.8rem;
+    }
+
+    .paire-card {
+        padding: 1rem;
+    }
+
+    .paire-photo {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.etape.active {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Sticky positioning for order summary */
+@media (min-width: 992px) {
+    .sticky-top {
+        top: 2rem;
+    }
+}
+
+/* Custom button styles */
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+/* Card hover effects */
+.card:hover {
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+/* Form styling */
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Success states */
+.text-success {
+    color: var(--success-color) !important;
+}
+
+.bg-success {
+    background-color: var(--success-color) !important;
+}
+
+/* Error states */
+.text-danger {
+    color: var(--danger-color) !important;
+}
+
+.bg-danger {
+    background-color: var(--danger-color) !important;
+}
+
+/* Photo upload area */
+.photo-upload-area {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.photo-upload-area:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+.photo-upload-area.has-photo {
+    border-style: solid;
+    border-color: var(--success-color);
+    background-color: rgba(25, 135, 84, 0.05);
+}
+
+/* Remove automatic Bootstrap spinners on disabled buttons */
+.btn:disabled .spinner-border,
+.btn[disabled] .spinner-border {
+    display: none !important;
+}
+
+.btn:disabled::before,
+.btn[disabled]::before {
+    display: none !important;
+}

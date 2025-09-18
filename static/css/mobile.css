@@ -1,0 +1,263 @@
+/* Mobile optimizations for order page */
+
+/* Touch-friendly button sizes */
+@media (max-width: 768px) {
+    .btn {
+        min-height: 44px;
+        font-size: 1rem;
+    }
+
+    .btn-lg {
+        min-height: 52px;
+        font-size: 1.1rem;
+        padding: 0.875rem 1.75rem;
+    }
+
+    /* Larger touch targets for form controls */
+    .form-control,
+    .form-select {
+        min-height: 48px;
+        font-size: 1rem;
+    }
+
+    .form-check-input {
+        width: 1.25em;
+        height: 1.25em;
+    }
+
+    /* Camera controls optimization */
+    #camera-controls .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    #camera-controls .btn:not(:last-child) {
+        margin-right: 0;
+    }
+
+    /* Modal adjustments for mobile */
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+
+    .modal-lg {
+        max-width: calc(100vw - 1rem);
+    }
+
+    /* Step indicator mobile */
+    .step-indicator {
+        padding: 0 1rem;
+    }
+
+    .step-text {
+        display: none;
+    }
+
+    .step-number {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+
+    /* Paire cards mobile optimization */
+    .paire-card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .paire-photo {
+        width: 70px;
+        height: 70px;
+    }
+
+    /* Service checkboxes - larger touch targets */
+    .service-checkbox {
+        padding: 0.75rem;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+        margin-bottom: 0.5rem;
+        transition: all 0.2s ease;
+    }
+
+    .service-checkbox:hover {
+        background-color: #f8f9fa;
+    }
+
+    .service-checkbox .form-check-input:checked + .form-check-label {
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+    /* Container adjustments */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Card spacing */
+    .card {
+        margin-bottom: 1rem;
+    }
+
+    /* Form row adjustments */
+    .row.g-3 {
+        --bs-gutter-x: 0.75rem;
+        --bs-gutter-y: 0.75rem;
+    }
+
+    /* Navigation buttons mobile */
+    .d-flex.justify-content-between .btn,
+    .d-flex.justify-content-end .btn {
+        flex: 1;
+        max-width: 200px;
+    }
+
+    .d-flex.justify-content-between .btn:first-child {
+        margin-right: 0.5rem;
+    }
+
+    /* Photo upload area mobile */
+    .photo-upload-area {
+        padding: 1.5rem 1rem;
+        min-height: 120px;
+    }
+
+    /* Camera video mobile */
+    #camera-video {
+        width: 100%;
+        max-height: 60vh;
+        object-fit: cover;
+    }
+
+    /* File input styling */
+    .form-control[type="file"] {
+        padding: 0.75rem 0.5rem;
+    }
+
+    /* Loading overlay mobile */
+    #loading-overlay .spinner-border {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    /* Sticky sidebar disable on mobile */
+    .sticky-top {
+        position: static !important;
+    }
+
+    /* Order summary mobile */
+    #resume-paiement {
+        font-size: 0.9rem;
+    }
+
+    /* Alert adjustments */
+    .alert {
+        font-size: 0.9rem;
+        padding: 0.75rem;
+    }
+
+    /* Typography mobile */
+    h1, .h1 {
+        font-size: 1.75rem;
+    }
+
+    h2, .h2 {
+        font-size: 1.5rem;
+    }
+
+    h3, .h3 {
+        font-size: 1.25rem;
+    }
+
+    h5, .h5 {
+        font-size: 1.1rem;
+    }
+
+    .lead {
+        font-size: 1rem;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 576px) {
+    .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .step-number {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+
+    .paire-card {
+        padding: 0.75rem;
+    }
+
+    .paire-photo {
+        width: 60px;
+        height: 60px;
+    }
+
+    /* Service price alignment */
+    .service-price {
+        font-size: 0.9rem;
+    }
+
+    /* Button adjustments for very small screens */
+    .btn-lg {
+        font-size: 1rem;
+        padding: 0.75rem 1.25rem;
+    }
+
+    /* Modal full width on very small screens */
+    .modal-dialog {
+        margin: 0.25rem;
+        width: calc(100vw - 0.5rem);
+        max-width: none;
+    }
+
+    .modal-body {
+        padding: 1rem;
+    }
+
+    .modal-header,
+    .modal-footer {
+        padding: 0.75rem 1rem;
+    }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .modal-dialog {
+        margin: 0.25rem auto;
+        max-height: 95vh;
+    }
+
+    .modal-content {
+        max-height: 95vh;
+        overflow-y: auto;
+    }
+
+    #camera-video {
+        max-height: 40vh;
+    }
+}
+
+/* Dark mode considerations for mobile */
+@media (prefers-color-scheme: dark) {
+    .service-checkbox {
+        border-color: #495057;
+        background-color: #212529;
+    }
+
+    .service-checkbox:hover {
+        background-color: #2c3034;
+    }
+
+    .paire-card {
+        background-color: #212529;
+        border-color: #495057;
+    }
+}

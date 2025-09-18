@@ -1,0 +1,29 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:5000"
+    volumes:
+      - .:/app
+      - uploads:/app/uploads
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/conciergerie_cordo
+    depends_on:
+      - db
+    command: gunicorn --bind 0.0.0.0:5000 app:app
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: conciergerie_cordo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+  uploads:

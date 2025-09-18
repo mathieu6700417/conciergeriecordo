@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+
+{% block title %}Commander - Conciergerie Cordo{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="h3 mb-4 text-center">
+                <i class="bi bi-camera me-2"></i>Nouvelle Commande
+            </h1>
+        </div>
+    </div>
+
+    <!-- Étapes -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="step-indicator">
+                <div class="step active" id="step-1">
+                    <span class="step-number">1</span>
+                    <span class="step-text">Paires</span>
+                </div>
+                <div class="step" id="step-2">
+                    <span class="step-number">2</span>
+                    <span class="step-text">Validation</span>
+                </div>
+                <div class="step" id="step-3">
+                    <span class="step-number">3</span>
+                    <span class="step-text">Paiement</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Étape 1: Ajout de paires -->
+    <div id="etape-paires" class="etape active">
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">
+                            <i class="bi bi-plus-circle me-2"></i>Ajouter vos paires de chaussures
+                        </h5>
+
+                        <!-- Liste des paires -->
+                        <div id="paires-container">
+                            <!-- Les paires seront ajoutées ici dynamiquement -->
+                        </div>
+
+                        <!-- Bouton ajouter paire -->
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-primary btn-lg" id="btn-ajouter-paire">
+                                <i class="bi bi-plus-lg me-2"></i>Ajouter une paire
+                            </button>
+                        </div>
+
+                        <!-- Navigation -->
+                        <div class="d-flex justify-content-end mt-4">
+                            <button type="button" class="btn btn-success btn-lg" id="btn-valider-paires" disabled>
+                                Valider et continuer
+                                <i class="bi bi-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Étape 2: Validation -->
+    <div id="etape-validation" class="etape">
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">
+                            <i class="bi bi-check-circle me-2"></i>Récapitulatif de votre commande
+                        </h5>
+
+                        <div id="recapitulatif-container">
+                            <!-- Le récapitulatif sera généré ici -->
+                        </div>
+
+                        <!-- Total -->
+                        <div class="border-top pt-3 mt-4">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4>Total :</h4>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <h4 class="text-primary" id="total-commande">0,00 €</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navigation -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-outline-secondary" id="btn-retour-paires">
+                                <i class="bi bi-arrow-left me-2"></i>Retour
+                            </button>
+                            <button type="button" class="btn btn-success btn-lg" id="btn-aller-paiement">
+                                Procéder au paiement
+                                <i class="bi bi-credit-card ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Étape 3: Informations client et paiement -->
+    <div id="etape-paiement" class="etape">
+        <form id="form-commande">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">
+                                <i class="bi bi-person me-2"></i>Vos informations
+                            </h5>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="nom" class="form-label">Nom complet *</label>
+                                    <input type="text" class="form-control" id="nom" name="nom" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="telephone" class="form-label">Téléphone *</label>
+                                    <input type="tel" class="form-control" id="telephone" name="telephone" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="entreprise" class="form-label">Entreprise *</label>
+                                    <input type="text" class="form-control" id="entreprise" name="entreprise" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">
+                                <i class="bi bi-credit-card me-2"></i>Paiement sécurisé
+                            </h5>
+                            <div id="stripe-elements">
+                                <!-- Stripe Elements sera injecté ici -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm sticky-top">
+                        <div class="card-body">
+                            <h6 class="card-title">Résumé commande</h6>
+                            <div id="resume-paiement">
+                                <!-- Résumé de la commande -->
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between mb-3">
+                                <strong>Total</strong>
+                                <strong class="text-primary" id="total-final">0,00 €</strong>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 btn-lg" id="btn-payer" disabled>
+                                <i class="bi bi-lock me-2"></i>Payer maintenant
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <button type="button" class="btn btn-outline-secondary" id="btn-retour-validation">
+                        <i class="bi bi-arrow-left me-2"></i>Retour
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal pour prise de photo -->
+<div class="modal fade" id="photoModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Prendre une photo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="camera-container" class="text-center">
+                    <video id="camera-video" class="img-fluid rounded mb-3" style="max-width: 100%; display: none;"></video>
+                    <canvas id="camera-canvas" style="display: none;"></canvas>
+                    <div id="photo-preview" class="mb-3" style="display: none;">
+                        <img id="preview-img" class="img-fluid rounded" style="max-width: 100%;">
+                    </div>
+
+                    <div id="camera-controls">
+                        <button type="button" class="btn btn-primary btn-lg me-2" id="btn-start-camera">
+                            <i class="bi bi-camera me-2"></i>Démarrer la caméra
+                        </button>
+                        <button type="button" class="btn btn-success btn-lg me-2" id="btn-take-photo" style="display: none;">
+                            <i class="bi bi-camera-fill me-2"></i>Prendre la photo
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" id="btn-retry-photo" style="display: none;">
+                            <i class="bi bi-arrow-clockwise me-2"></i>Reprendre
+                        </button>
+                    </div>
+
+                    <!-- Fallback file input -->
+                    <div class="mt-3">
+                        <p class="text-muted">ou</p>
+                        <input type="file" class="form-control" id="file-input" accept="image/*">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="btn-confirm-photo" disabled>Confirmer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Injecter les prestations dans les variables globales JavaScript
+    window.prestationsHomme = {{ prestations_homme|tojson }};
+    window.prestationsFemme = {{ prestations_femme|tojson }};
+</script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{{ url_for('static', filename='js/camera.js') }}"></script>
+<script src="{{ url_for('static', filename='js/commande.js') }}"></script>
+{% endblock %}

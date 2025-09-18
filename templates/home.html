@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    Service de cordonnerie<br>
+                    <span class="text-warning">en conciergerie</span>
+                </h1>
+                <p class="lead mb-4">
+                    Facilitez la vie de vos collaborateurs ! Nous récupérons et livrons les chaussures
+                    directement dans votre entreprise.
+                </p>
+                <a href="{{ url_for('main.choix_prestation') }}" class="btn btn-warning btn-lg px-4 py-3">
+                    <i class="bi bi-plus-circle me-2"></i>Commander maintenant
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="fw-bold">Nos Services</h2>
+                <p class="lead">Des prestations de qualité pour tous types de chaussures</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
+                            <i class="bi bi-hammer text-primary fs-4"></i>
+                        </div>
+                        <h5 class="card-title">Patin</h5>
+                        <p class="card-text">Réparation et remplacement de patins pour chaussures homme et femme.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
+                            <i class="bi bi-arrow-up text-primary fs-4"></i>
+                        </div>
+                        <h5 class="card-title">Talon</h5>
+                        <p class="card-text">Réparation et changement de talons, remise en forme.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
+                            <i class="bi bi-circle text-primary fs-4"></i>
+                        </div>
+                        <h5 class="card-title">Patin Gomme</h5>
+                        <p class="card-text">Pose de patins en gomme antidérapante pour plus d'adhérence.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
+                            <i class="bi bi-circle-fill text-primary fs-4"></i>
+                        </div>
+                        <h5 class="card-title">Talon Gomme</h5>
+                        <p class="card-text">Installation de talons en gomme pour un meilleur confort.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
+                            <i class="bi bi-arrow-clockwise text-primary fs-4"></i>
+                        </div>
+                        <h5 class="card-title">Resemmelage Complet</h5>
+                        <p class="card-text">Resemmelage complet pour baskets et chaussures de sport.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
+                            <i class="bi bi-truck text-warning fs-4"></i>
+                        </div>
+                        <h5 class="card-title">Service Conciergerie</h5>
+                        <p class="card-text">Récupération et livraison directement dans votre entreprise.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Zones Couvertes Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="fw-bold">Zones Couvertes</h2>
+                <p class="lead">Nous intervenons dans toute la CUB bordelaise</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="row g-3">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="bg-white rounded p-3 text-center shadow-sm">
+                            <i class="bi bi-geo-alt text-primary mb-2 fs-4"></i>
+                            <h6 class="mb-0">Bordeaux</h6>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="bg-white rounded p-3 text-center shadow-sm">
+                            <i class="bi bi-geo-alt text-primary mb-2 fs-4"></i>
+                            <h6 class="mb-0">Pessac</h6>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="bg-white rounded p-3 text-center shadow-sm">
+                            <i class="bi bi-geo-alt text-primary mb-2 fs-4"></i>
+                            <h6 class="mb-0">Talence</h6>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="bg-white rounded p-3 text-center shadow-sm">
+                            <i class="bi bi-geo-alt text-primary mb-2 fs-4"></i>
+                            <h6 class="mb-0">Mérignac</h6>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="bg-white rounded p-3 text-center shadow-sm">
+                            <i class="bi bi-geo-alt text-primary mb-2 fs-4"></i>
+                            <h6 class="mb-0">Bègles</h6>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="bg-white rounded p-3 text-center shadow-sm">
+                            <i class="bi bi-geo-alt text-primary mb-2 fs-4"></i>
+                            <h6 class="mb-0">Villenave d'Ornon</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Comment ça marche Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="fw-bold">Comment ça marche ?</h2>
+                <p class="lead">Un service simple et efficace en 3 étapes</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                        <span class="fs-3 fw-bold">1</span>
+                    </div>
+                    <h5>Scannez le QR Code</h5>
+                    <p>Utilisez votre smartphone pour scanner le QR code affiché dans votre entreprise.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                        <span class="fs-3 fw-bold">2</span>
+                    </div>
+                    <h5>Photographiez vos chaussures</h5>
+                    <p>Prenez une photo de chaque paire et sélectionnez les services souhaités.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                        <span class="fs-3 fw-bold">3</span>
+                    </div>
+                    <h5>Récupération & Livraison</h5>
+                    <p>Nous récupérons vos chaussures et les livrons réparées directement à votre bureau.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="fw-bold mb-4">Prêt à commander ?</h2>
+                <p class="lead mb-4">Simplifiez l'entretien de vos chaussures dès aujourd'hui</p>
+                <a href="{{ url_for('main.choix_prestation') }}" class="btn btn-warning btn-lg px-5 py-3">
+                    <i class="bi bi-camera me-2"></i>Prendre une photo et commander
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

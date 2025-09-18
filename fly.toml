@@ -1,0 +1,62 @@
+# fly.toml app configuration file generated for conciergerie-cordo on 2024-01-XX
+
+app = "conciergerie-cordo"
+primary_region = "cdg"
+
+[build]
+
+[env]
+  FLASK_ENV = "production"
+  PORT = "8080"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[http_service.checks]]
+  interval = "10s"
+  grace_period = "5s"
+  method = "get"
+  path = "/"
+  protocol = "http"
+  timeout = "2s"
+  tls_skip_verify = false
+
+[checks]
+  [checks.alive]
+    grace_period = "30s"
+    interval = "15s"
+    method = "get"
+    path = "/"
+    port = 8080
+    protocol = "http"
+    timeout = "10s"
+    type = "http"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 8080
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 256

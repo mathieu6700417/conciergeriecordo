@@ -1,0 +1,12 @@
+Flask==2.3.3
+SQLAlchemy==2.0.23
+Flask-SQLAlchemy==3.1.1
+Flask-Migrate==4.0.5
+Werkzeug==2.3.7
+python-dotenv==1.0.0
+stripe==7.5.0
+google-cloud-storage==2.10.0
+Pillow==10.1.0
+psycopg2-binary==2.9.9
+gunicorn==21.2.0
+email-validator==2.1.0
