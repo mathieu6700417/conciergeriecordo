@@ -64,8 +64,13 @@ def upload_photo():
     """Upload d'une photo pour une paire de chaussures"""
     try:
         # Récupérer les données de la photo (base64)
+        if not request.json:
+            current_app.logger.error('No JSON data in upload request')
+            return jsonify({'success': False, 'error': 'Aucune donnée JSON fournie'}), 400
+
         photo_data = request.json.get('photo')
         if not photo_data:
+            current_app.logger.error('No photo data provided')
             return jsonify({'success': False, 'error': 'Aucune photo fournie'}), 400
 
         # Décoder la photo base64
@@ -90,6 +95,7 @@ def upload_photo():
 
             # Upload vers Google Cloud Storage (obligatoire)
             if not gcs_manager.is_configured():
+                current_app.logger.error('GCS not configured')
                 return jsonify({
                     'success': False,
                     'error': 'Google Cloud Storage non configuré. Veuillez configurer GCS.'
@@ -112,23 +118,26 @@ def upload_photo():
                 return jsonify({
                     'success': True,
                     'photo_url': result['public_url'],
-                    'gcs_path': result['gcs_path'],
-                    'filename': result['filename']
+                    'filename': result['filename'],
+                    'temp_id': temp_id
                 })
 
             except Exception as gcs_error:
+                current_app.logger.error(f'GCS upload error: {str(gcs_error)}')
                 return jsonify({
                     'success': False,
                     'error': f'Erreur lors de l\'upload vers Google Cloud Storage: {str(gcs_error)}'
                 }), 500
 
         except Exception as e:
+            current_app.logger.error(f'Image processing error: {str(e)}')
             return jsonify({'success': False, 'error': f'Erreur de traitement de l\'image: {str(e)}'}), 400
 
     except IOError as e:
+        current_app.logger.error(f'File IO error: {str(e)}')
         return jsonify({'success': False, 'error': f'Erreur de fichier: {str(e)}'}), 400
     except Exception as e:
-        current_app.logger.error(f'Erreur dans upload_photo: {str(e)}')
+        current_app.logger.error(f'Unexpected error in upload_photo: {str(e)}')
         return jsonify({'success': False, 'error': 'Erreur serveur'}), 500
 
 @api_bp.route('/commande', methods=['POST'])

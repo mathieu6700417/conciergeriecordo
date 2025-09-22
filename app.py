@@ -1,4 +1,5 @@
 import os
+import logging
 from flask import Flask, send_from_directory
 from database import db, migrate
 from config import config
@@ -10,6 +11,15 @@ def create_app(config_name=None):
         config_name = os.environ.get('FLASK_ENV', 'development')
 
     app.config.from_object(config[config_name])
+
+    # Configure logging
+    if not app.debug:
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+        )
+        app.logger.setLevel(logging.INFO)
+        app.logger.info('Application started')
 
     # Initialize extensions
     db.init_app(app)

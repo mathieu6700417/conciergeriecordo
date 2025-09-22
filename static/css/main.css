@@ -9,6 +9,16 @@
     --dark-color: #212529;
 }
 
+/* Service image hover effect */
+.service-image {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.service-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;

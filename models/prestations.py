@@ -10,6 +10,7 @@ class Prestation(db.Model):
     prix = db.Column(db.Numeric(10, 2), nullable=False)
     type_chaussure = db.Column(db.Enum(TypeChaussure), nullable=False)
     description = db.Column(db.Text)
+    image_filename = db.Column(db.String(255), nullable=True)
     actif = db.Column(db.Boolean, default=True, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
@@ -26,6 +27,7 @@ class Prestation(db.Model):
             'prix': float(self.prix),
             'type_chaussure': self.type_chaussure.value,
             'description': self.description,
+            'image_filename': self.image_filename,
             'actif': self.actif,
             'created_at': self.created_at.isoformat()
         }

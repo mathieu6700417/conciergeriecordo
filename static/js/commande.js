@@ -34,6 +34,10 @@ class OrderManager {
 
         this.photoModal = new bootstrap.Modal(document.getElementById('photoModal'));
         this.confirmPhotoBtn = document.getElementById('btn-confirm-photo');
+
+        this.prestationImageModal = new bootstrap.Modal(document.getElementById('prestationImageModal'));
+        this.prestationImageModalImg = document.getElementById('prestationImageModalImg');
+        this.prestationImageModalTitle = document.getElementById('prestationImageModalTitle');
     }
 
     bindEvents() {
@@ -276,11 +280,20 @@ class OrderManager {
                            id="service-${paire.id}-${service.id}"
                            ${paire.prestations.includes(service.id) ? 'checked' : ''}
                            onchange="orderManager.toggleService('${paire.id}', ${service.id})">
-                    <label class="form-check-label d-flex justify-content-between w-100" for="service-${paire.id}-${service.id}">
-                        <span>
-                            <strong>${service.nom}</strong>
-                            ${service.description ? `<br><small class="text-muted">${service.description}</small>` : ''}
-                        </span>
+                    <label class="form-check-label d-flex justify-content-between align-items-center w-100" for="service-${paire.id}-${service.id}">
+                        <div class="d-flex align-items-center">
+                            ${service.image_filename ? `
+                                <img src="/static/img/prestations/${service.image_filename}"
+                                     class="service-image me-3"
+                                     alt="${service.nom}"
+                                     style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; cursor: pointer;"
+                                     onclick="orderManager.showPrestationImage(event, '${service.image_filename}', '${service.nom}')">
+                            ` : ''}
+                            <span>
+                                <strong>${service.nom}</strong>
+                                ${service.description ? `<br><small class="text-muted">${service.description}</small>` : ''}
+                            </span>
+                        </div>
                         <span class="service-price">${formatPrice(service.prix)}</span>
                     </label>
                 </div>
@@ -326,8 +339,14 @@ class OrderManager {
                 paireElement.remove();
             }
 
-            // Re-render to update paire numbers
-            this.renderAllPaires();
+            // If no paires left, add a new empty one
+            if (this.paires.length === 0) {
+                this.ajouterPaire();
+                showToast('Nouvelle paire ajoutée automatiquement', 'info');
+            } else {
+                // Re-render to update paire numbers
+                this.renderAllPaires();
+            }
 
             // Update validation button
             this.updateValidationButton();
@@ -644,6 +663,22 @@ class OrderManager {
         }, 100);
 
         showToast('Paire en mode édition', 'info');
+    }
+
+    showPrestationImage(event, imageFilename, serviceName) {
+        // Prevent event from bubbling up to the label
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (!imageFilename || !this.prestationImageModal) return;
+
+        // Update modal content
+        this.prestationImageModalImg.src = `/static/img/prestations/${imageFilename}`;
+        this.prestationImageModalImg.alt = serviceName;
+        this.prestationImageModalTitle.textContent = serviceName;
+
+        // Show modal
+        this.prestationImageModal.show();
     }
 
     // localStorage management

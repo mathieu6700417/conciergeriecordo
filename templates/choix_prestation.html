@@ -218,6 +218,21 @@
     </div>
 </div>
 
+<!-- Modal pour afficher l'image de prestation en grand -->
+<div class="modal fade" id="prestationImageModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="prestationImageModalTitle">Image de la prestation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="prestationImageModalImg" class="img-fluid rounded" alt="" style="max-width: 100%; max-height: 70vh;">
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block scripts %}

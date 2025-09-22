@@ -8,74 +8,126 @@ from models.prestations import Prestation, TypeChaussure
 from decimal import Decimal
 
 def seed_prestations():
-    """Créer les prestations par défaut"""
+    """Créer les prestations par défaut et désactiver les autres"""
+
+    # Désactiver toutes les prestations existantes
+    print("Désactivation de toutes les prestations existantes...")
+    existing_prestations = Prestation.query.all()
+    for prestation in existing_prestations:
+        prestation.actif = False
+        print(f"Désactivation: {prestation.nom} - {prestation.type_chaussure.value}")
 
     prestations_data = [
-        # Prestations Homme
+        # Prestations Homme (actives seulement)
         {
-            'nom': 'Patin',
-            'prix': Decimal('15.00'),
+            'nom': 'Talon classique',
+            'prix': Decimal('22.00'),
             'type_chaussure': TypeChaussure.HOMME,
-            'description': 'Réparation et remplacement de patins pour chaussures homme'
+            'description': 'Réparation ou remplacement du talon classique',
+            'image_filename': 'talon-homme.png',
+            'actif': True
         },
         {
-            'nom': 'Talon',
-            'prix': Decimal('20.00'),
-            'type_chaussure': TypeChaussure.HOMME,
-            'description': 'Réparation et changement de talons pour chaussures homme'
-        },
-        {
-            'nom': 'Patin Gomme',
-            'prix': Decimal('18.00'),
-            'type_chaussure': TypeChaussure.HOMME,
-            'description': 'Pose de patins en gomme antidérapante pour chaussures homme'
-        },
-        {
-            'nom': 'Talon Gomme',
+            'nom': 'Talon gomme',
             'prix': Decimal('25.00'),
             'type_chaussure': TypeChaussure.HOMME,
-            'description': 'Installation de talons en gomme pour chaussures homme'
+            'description': 'Réparation ou remplacement du talon avec gomme antidérapante',
+            'image_filename': 'talon-gomme.png',
+            'actif': True
         },
         {
-            'nom': 'Resemmelage complet basket',
-            'prix': Decimal('45.00'),
+            'nom': 'Patin classique',
+            'prix': Decimal('22.00'),
             'type_chaussure': TypeChaussure.HOMME,
-            'description': 'Resemmelage complet pour baskets et chaussures de sport homme'
+            'description': 'Réparation ou remplacement du patin classique',
+            'image_filename': 'talon-patin-classique-homme.png',
+            'actif': True
+        },
+        {
+            'nom': 'Patin gomme',
+            'prix': Decimal('30.00'),
+            'type_chaussure': TypeChaussure.HOMME,
+            'description': 'Pose de patin en gomme antidérapante',
+            'image_filename': 'patin-gomme.png',
+            'actif': True
+        },
+        {
+            'nom': 'Ressemelage complet Basket',
+            'prix': Decimal('60.00'),
+            'type_chaussure': TypeChaussure.HOMME,
+            'description': 'Ressemelage complet pour baskets et chaussures de sport',
+            'image_filename': 'ressemelage-basket.png',
+            'actif': True
+        },
+        {
+            'nom': 'Autre (collage, couture, ...)',
+            'prix': Decimal('0.00'),
+            'type_chaussure': TypeChaussure.HOMME,
+            'description': 'Autres réparations sur devis',
+            'image_filename': None,
+            'actif': True
         },
 
-        # Prestations Femme
+        # Prestations Femme (actives seulement)
         {
-            'nom': 'Patin',
+            'nom': 'Talon aiguille',
+            'prix': Decimal('12.00'),
+            'type_chaussure': TypeChaussure.FEMME,
+            'description': 'Réparation de talon aiguille',
+            'image_filename': 'talon-femme.png',
+            'actif': True
+        },
+        {
+            'nom': 'Talon classique',
             'prix': Decimal('15.00'),
             'type_chaussure': TypeChaussure.FEMME,
-            'description': 'Réparation et remplacement de patins pour chaussures femme'
+            'description': 'Réparation ou remplacement du talon classique',
+            'image_filename': 'talon-femme.png',
+            'actif': True
         },
         {
-            'nom': 'Talon',
+            'nom': 'Talon gomme',
+            'prix': Decimal('23.00'),
+            'type_chaussure': TypeChaussure.FEMME,
+            'description': 'Réparation ou remplacement du talon avec gomme antidérapante',
+            'image_filename': 'talon-gomme.png',
+            'actif': True
+        },
+        {
+            'nom': 'Patin classique',
             'prix': Decimal('22.00'),
             'type_chaussure': TypeChaussure.FEMME,
-            'description': 'Réparation et changement de talons pour chaussures femme'
+            'description': 'Réparation ou remplacement du patin classique',
+            'image_filename': 'talon-patin-classique-femme.png',
+            'actif': True
         },
         {
-            'nom': 'Patin Gomme',
-            'prix': Decimal('18.00'),
+            'nom': 'Patin gomme',
+            'prix': Decimal('26.00'),
             'type_chaussure': TypeChaussure.FEMME,
-            'description': 'Pose de patins en gomme antidérapante pour chaussures femme'
+            'description': 'Pose de patin en gomme antidérapante',
+            'image_filename': 'patin-femme.png',
+            'actif': True
         },
         {
-            'nom': 'Talon Gomme',
-            'prix': Decimal('25.00'),
+            'nom': 'Ressemelage complet Basket',
+            'prix': Decimal('50.00'),
             'type_chaussure': TypeChaussure.FEMME,
-            'description': 'Installation de talons en gomme pour chaussures femme'
+            'description': 'Ressemelage complet pour baskets et chaussures de sport',
+            'image_filename': 'ressemelage-basket.png',
+            'actif': True
         },
         {
-            'nom': 'Resemmelage complet basket',
-            'prix': Decimal('42.00'),
+            'nom': 'Autre (collage, couture, ...)',
+            'prix': Decimal('0.00'),
             'type_chaussure': TypeChaussure.FEMME,
-            'description': 'Resemmelage complet pour baskets et chaussures de sport femme'
+            'description': 'Autres réparations sur devis',
+            'image_filename': None,
+            'actif': True
         },
     ]
 
+    print("\nCréation/mise à jour des prestations actives...")
     for prestation_data in prestations_data:
         # Vérifier si la prestation existe déjà
         existing = Prestation.query.filter_by(
@@ -83,12 +135,18 @@ def seed_prestations():
             type_chaussure=prestation_data['type_chaussure']
         ).first()
 
-        if not existing:
+        if existing:
+            # Mettre à jour la prestation existante
+            existing.prix = prestation_data['prix']
+            existing.description = prestation_data['description']
+            existing.image_filename = prestation_data['image_filename']
+            existing.actif = prestation_data['actif']
+            print(f"Mise à jour: {existing.nom} - {existing.type_chaussure.value} (Prix: {existing.prix}€)")
+        else:
+            # Créer une nouvelle prestation
             prestation = Prestation(**prestation_data)
             db.session.add(prestation)
-            print(f"Ajout de la prestation: {prestation.nom} - {prestation.type_chaussure.value}")
-        else:
-            print(f"Prestation déjà existante: {existing.nom} - {existing.type_chaussure.value}")
+            print(f"Création: {prestation.nom} - {prestation.type_chaussure.value} (Prix: {prestation.prix}€)")
 
 def main():
     """Fonction principale"""
