@@ -1,0 +1,16 @@
+/* Override for logo text and icon color */
+.navbar-brand {
+    color: #FF8C5A !important;
+}
+
+.navbar-brand:hover {
+    color: #FF7A45 !important;
+}
+
+.navbar-brand i {
+    color: #FF8C5A !important;
+}
+
+footer h5 i {
+    color: #FF8C5A;
+}

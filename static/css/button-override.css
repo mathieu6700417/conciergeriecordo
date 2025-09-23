@@ -1,0 +1,34 @@
+/* Override for homme/femme buttons */
+.btn-outline-primary {
+    color: #FF8C5A;
+    border-color: #FF8C5A;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #FF8C5A;
+    border-color: #FF8C5A;
+}
+
+.btn-check:checked + .btn-outline-primary,
+.btn-check:active + .btn-outline-primary,
+.btn-outline-primary:active,
+.btn-outline-primary.active,
+.btn-outline-primary.dropdown-toggle.show {
+    color: #fff;
+    background-color: #FF8C5A;
+    border-color: #FF8C5A;
+}
+
+.btn-check:focus + .btn-outline-primary,
+.btn-outline-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 140, 90, 0.5);
+}
+
+.btn-check:checked:focus + .btn-outline-primary,
+.btn-check:active:focus + .btn-outline-primary,
+.btn-outline-primary:active:focus,
+.btn-outline-primary.active:focus,
+.btn-outline-primary.dropdown-toggle.show:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 140, 90, 0.5);
+}

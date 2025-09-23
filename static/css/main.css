@@ -1,12 +1,13 @@
 /* Base styles */
 :root {
-    --primary-color: #0d6efd;
-    --secondary-color: #6c757d;
-    --success-color: #198754;
-    --warning-color: #ffc107;
+    --primary-color: #FFB3BA;
+    --secondary-color: #BAB3A9;
+    --success-color: #BAB3A9;
+    --warning-color: #FFB3BA;
     --danger-color: #dc3545;
-    --light-color: #f8f9fa;
-    --dark-color: #212529;
+    --light-color: #FFF5F0;
+    --dark-color: #4A4A4A;
+    --orange-color: #FF8C5A;
 }
 
 /* Service image hover effect */
@@ -26,7 +27,7 @@ body {
 
 /* Hero section */
 .hero-section {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #0056d3 100%);
+    background: linear-gradient(135deg, #FFF5F0 0%, #F5E6D8 100%);
     min-height: 500px;
 }
 
@@ -63,7 +64,7 @@ body {
 }
 
 .step.active .step-number {
-    background-color: var(--primary-color);
+    background-color: var(--orange-color);
     color: white;
 }
 
@@ -79,7 +80,7 @@ body {
 }
 
 .step.active .step-text {
-    color: var(--primary-color);
+    color: var(--orange-color);
     font-weight: 600;
 }
 
@@ -103,7 +104,7 @@ body {
 
 .paire-card:hover {
     border-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
+    box-shadow: 0 4px 12px rgba(255, 179, 186, 0.25);
 }
 
 .paire-photo {
@@ -119,8 +120,8 @@ body {
 }
 
 .service-checkbox .form-check-input:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background-color: var(--orange-color);
+    border-color: var(--orange-color);
 }
 
 .service-price {
@@ -215,7 +216,7 @@ body {
 /* Form styling */
 .form-control:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(255, 179, 186, 0.35);
 }
 
 /* Success states */
@@ -248,13 +249,13 @@ body {
 
 .photo-upload-area:hover {
     border-color: var(--primary-color);
-    background-color: rgba(13, 110, 253, 0.05);
+    background-color: rgba(255, 179, 186, 0.1);
 }
 
 .photo-upload-area.has-photo {
     border-style: solid;
     border-color: var(--success-color);
-    background-color: rgba(25, 135, 84, 0.05);
+    background-color: rgba(186, 179, 169, 0.1);
 }
 
 /* Remove automatic Bootstrap spinners on disabled buttons */
@@ -281,7 +282,7 @@ body {
 
 .paire-card.validated.collapsed:hover {
     border-color: var(--success-color);
-    box-shadow: 0 2px 8px rgba(25, 135, 84, 0.15);
+    box-shadow: 0 2px 8px rgba(186, 179, 169, 0.2);
 }
 
 .collapsed-view img {

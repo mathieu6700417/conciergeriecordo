@@ -39,44 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Toast notification utility
+    // Toast notification utility - disabled
     window.showToast = function(message, type = 'info') {
-        // Create toast element
-        const toastHtml = `
-            <div class="toast align-items-center text-white bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        ${message}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-                </div>
-            </div>
-        `;
-
-        // Create or get toast container
-        let toastContainer = document.getElementById('toast-container');
-        if (!toastContainer) {
-            toastContainer = document.createElement('div');
-            toastContainer.id = 'toast-container';
-            toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
-            toastContainer.style.zIndex = '9999';
-            document.body.appendChild(toastContainer);
-        }
-
-        // Add toast to container
-        const toastElement = document.createElement('div');
-        toastElement.innerHTML = toastHtml;
-        const toast = toastElement.firstElementChild;
-        toastContainer.appendChild(toast);
-
-        // Show toast
-        const bsToast = new bootstrap.Toast(toast);
-        bsToast.show();
-
-        // Remove toast element after it's hidden
-        toast.addEventListener('hidden.bs.toast', () => {
-            toast.remove();
-        });
+        // Notifications are disabled - do nothing
+        console.log(`[${type}] ${message}`);
     };
 
     // API utility functions
