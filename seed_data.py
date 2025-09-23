@@ -74,7 +74,7 @@ def seed_prestations():
             'prix': Decimal('12.00'),
             'type_chaussure': TypeChaussure.FEMME,
             'description': 'Réparation de talon aiguille',
-            'image_filename': 'talon-femme.png',
+            'image_filename': 'talon-patin-classique-femme.png',
             'actif': True
         },
         {
@@ -106,7 +106,7 @@ def seed_prestations():
             'prix': Decimal('26.00'),
             'type_chaussure': TypeChaussure.FEMME,
             'description': 'Pose de patin en gomme antidérapante',
-            'image_filename': 'patin-femme.png',
+            'image_filename': 'patin-gomme.png',
             'actif': True
         },
         {
