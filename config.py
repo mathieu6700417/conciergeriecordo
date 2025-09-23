@@ -12,6 +12,14 @@ class Config:
     SQLALCHEMY_DATABASE_URI = database_url or 'postgresql://postgres:postgres@localhost:5432/conciergerie_cordo'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # Connection pool configuration to handle connection timeouts
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'pool_pre_ping': True,  # Validate connections before use
+        'pool_recycle': 300,    # Recycle connections every 5 minutes
+        'pool_timeout': 20,     # Timeout when getting connection from pool
+        'max_overflow': 0,      # Don't allow overflow connections
+    }
+
     # Stripe
     STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
     STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
