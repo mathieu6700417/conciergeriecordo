@@ -714,16 +714,14 @@ class OrderManager {
                 this.paires = data.paires || [];
                 this.currentStep = data.currentStep || 1;
 
+                // Store client info for later restoration BEFORE navigating
+                this.savedClientInfo = data.clientInfo;
+
                 // Restore pairs
                 if (this.paires.length > 0) {
                     this.renderAllPaires();
                     this.updateValidationButton();
                     this.allerEtape(this.currentStep);
-
-                    // Restore client info if on payment step
-                    if (this.currentStep === 3 && data.clientInfo) {
-                        this.setClientInfo(data.clientInfo);
-                    }
 
                     // Update recap if on validation step
                     if (this.currentStep === 2) {
@@ -801,6 +799,21 @@ class OrderManager {
         }
 
         this.currentStep = etape;
+
+        // Update recap if on validation or payment step
+        if (etape === 2 || etape === 3) {
+            this.renderRecapitulatif();
+        }
+
+        // Restore client info when going to payment step
+        if (etape === 3 && this.savedClientInfo) {
+            this.setClientInfo(this.savedClientInfo);
+            // Validate form after DOM update
+            setTimeout(() => {
+                this.validatePaymentForm();
+            }, 50);
+        }
+
         this.saveToStorage(); // Save current step
 
         // Scroll to top
