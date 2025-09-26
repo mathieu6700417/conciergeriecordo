@@ -14,12 +14,13 @@
                     Facilitez la vie de vos collaborateurs ! Nous récupérons et livrons les chaussures
                     directement dans votre entreprise.
                 </p>
-                <a href="{{ url_for('main.choix_prestation') }}" class="btn btn-warning btn-lg px-4 py-3">
+                <a href="{{ url_for('main.choix_prestation') }}" class="btn btn-warning btn-lg px-4 py-3" style="position: relative; z-index: 2;">
                     <i class="bi bi-plus-circle me-2"></i>Commander maintenant
                 </a>
             </div>
-            <div class="col-lg-6 text-center">
-                <img src="{{ url_for('static', filename='img/logo-cc.png') }}" alt="Logo Conciergerie Cordo" style="max-width: 100%; height: auto;">
+            <div class="col-lg-6 text-center position-relative">
+                <img src="{{ url_for('static', filename='img/logo-les-souliers-de-marie.png') }}" alt="Les Souliers de Marie" style="max-width: 100%; height: auto; position: relative; z-index: 1;">
+                <img src="{{ url_for('static', filename='img/logo-bottes.png') }}" alt="Logo Bottes" style="position: absolute; top: 50%; left: 20%; transform: translate(-50%, -50%); max-width: 250px; height: auto; z-index: 0;">
             </div>
         </div>
     </div>
