@@ -37,6 +37,11 @@ def choix_prestation():
                          prestations_homme=[p.to_dict() for p in prestations_homme],
                          prestations_femme=[p.to_dict() for p in prestations_femme])
 
+@main_bp.route('/cgv')
+def cgv():
+    """Page des Conditions Générales de Vente"""
+    return render_template('cgv.html')
+
 @main_bp.route('/checkout')
 def checkout():
     """Page de résultat du checkout Stripe"""
