@@ -23,7 +23,7 @@ def seed_prestations():
             'nom': 'Talon classique',
             'prix': Decimal('22.00'),
             'type_chaussure': TypeChaussure.HOMME,
-            'description': 'Réparation ou remplacement du talon classique',
+            'description': 'Changement du talon sur une chaussure de ville homme',
             'image_filename': 'talon-homme.png',
             'actif': True
         },
@@ -31,15 +31,15 @@ def seed_prestations():
             'nom': 'Talon gomme',
             'prix': Decimal('25.00'),
             'type_chaussure': TypeChaussure.HOMME,
-            'description': 'Réparation ou remplacement du talon avec gomme antidérapante',
+            'description': 'Réparation et remplacement de la partie talon sur une chaussure de type basket pour compenser l\'usure de la chaussure.',
             'image_filename': 'talon-gomme.png',
             'actif': True
         },
         {
             'nom': 'Patin classique',
-            'prix': Decimal('22.00'),
+            'prix': Decimal('26.00'),
             'type_chaussure': TypeChaussure.HOMME,
-            'description': 'Réparation ou remplacement du patin classique',
+            'description': 'Pose d\'une semelle en caoutchouc antidérapante pour protéger et remédier à l\'usure naturelle d\'une chaussure. Pour chaussures de ville fines ou semelles cuir.',
             'image_filename': 'talon-patin-classique-homme.png',
             'actif': True
         },
@@ -47,7 +47,7 @@ def seed_prestations():
             'nom': 'Patin gomme',
             'prix': Decimal('30.00'),
             'type_chaussure': TypeChaussure.HOMME,
-            'description': 'Pose de patin en gomme antidérapante',
+            'description': 'Pose d\'une semelle en caoutchouc type gomme avec du relief sur la semelle existante qui est au contact du sol pour protéger la semelle des intempéries et tenir un rôle antidérapant, ou remédier à l\'usure naturelle d\'une chaussure',
             'image_filename': 'patin-gomme.png',
             'actif': True
         },
@@ -55,7 +55,7 @@ def seed_prestations():
             'nom': 'Ressemelage complet Basket',
             'prix': Decimal('60.00'),
             'type_chaussure': TypeChaussure.HOMME,
-            'description': 'Ressemelage complet pour baskets et chaussures de sport',
+            'description': 'Ressemelage complet sur une paire de basket grâce à une couche de caoutchouc avec des reliefs antidérapants. Utile pour remédier à l\'usure importante de la paire.',
             'image_filename': 'ressemelage-basket.png',
             'actif': True
         },
@@ -73,7 +73,7 @@ def seed_prestations():
             'nom': 'Talon aiguille',
             'prix': Decimal('12.00'),
             'type_chaussure': TypeChaussure.FEMME,
-            'description': 'Réparation de talon aiguille',
+            'description': 'Changement des talons aiguilles sur une paire femme (ne comprend pas la remise en beauté de l\'enrobage du talon s\'il est très abimé - nous consulter.)',
             'image_filename': 'talon-patin-classique-femme.png',
             'actif': True
         },
@@ -81,7 +81,7 @@ def seed_prestations():
             'nom': 'Talon classique',
             'prix': Decimal('15.00'),
             'type_chaussure': TypeChaussure.FEMME,
-            'description': 'Réparation ou remplacement du talon classique',
+            'description': 'Remplacement du talon usé qui est au contact du sol.',
             'image_filename': 'talon-femme.png',
             'actif': True
         },
@@ -89,15 +89,15 @@ def seed_prestations():
             'nom': 'Talon gomme',
             'prix': Decimal('23.00'),
             'type_chaussure': TypeChaussure.FEMME,
-            'description': 'Réparation ou remplacement du talon avec gomme antidérapante',
+            'description': 'Réparation et remplacement de la partie talon sur une chaussure de type basket pour compenser l\'usure de la chaussure.',
             'image_filename': 'talon-gomme.png',
             'actif': True
         },
         {
-            'nom': 'Patin classique',
+            'nom': 'Patin',
             'prix': Decimal('22.00'),
             'type_chaussure': TypeChaussure.FEMME,
-            'description': 'Réparation ou remplacement du patin classique',
+            'description': 'Pose d\'une semelle en caoutchouc antidérapante pour protéger et remédier à l\'usure naturelle d\'une chaussure. Pour chaussures de ville fines ou semelles cuir.',
             'image_filename': 'talon-patin-classique-femme.png',
             'actif': True
         },
@@ -105,7 +105,7 @@ def seed_prestations():
             'nom': 'Patin gomme',
             'prix': Decimal('26.00'),
             'type_chaussure': TypeChaussure.FEMME,
-            'description': 'Pose de patin en gomme antidérapante',
+            'description': 'Pose d\'une semelle en caoutchouc type gomme avec du relief sur la semelle existante qui est au contact du sol pour protéger la semelle des intempéries et tenir un rôle antidérapant, ou remédier à l\'usure naturelle d\'une chaussure',
             'image_filename': 'patin-gomme.png',
             'actif': True
         },
@@ -113,7 +113,7 @@ def seed_prestations():
             'nom': 'Ressemelage complet Basket',
             'prix': Decimal('50.00'),
             'type_chaussure': TypeChaussure.FEMME,
-            'description': 'Ressemelage complet pour baskets et chaussures de sport',
+            'description': 'Ressemelage complet sur une paire de basket grâce à une couche de caoutchouc avec des reliefs antidérapants. Utile pour remédier à l\'usure importante de la paire.',
             'image_filename': 'ressemelage-basket.png',
             'actif': True
         },
