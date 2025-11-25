@@ -58,20 +58,27 @@ def checkout():
         # Récupérer la session Stripe
         checkout_session = stripe.checkout.Session.retrieve(session_id)
 
+        print(f"Checkout session retrieved: {session_id}")
+        print(f"Payment status: {checkout_session.payment_status}")
+        print(f"Session status: {checkout_session.status}")
+
         if checkout_session.payment_status == 'paid':
             # Récupérer la commande associée
             commande_id = checkout_session.metadata.get('commande_id')
             commande = Commande.query.get(commande_id)
 
             if commande:
+                print(f"Order found: #{commande.id}")
                 return render_template('checkout.html', status='success',
                                      commande=commande)
             else:
+                print(f"Order not found for commande_id: {commande_id}")
                 return render_template('checkout.html', status='error',
                                      error_message='Commande introuvable')
         else:
+            print(f"Payment not confirmed - payment_status: {checkout_session.payment_status}, status: {checkout_session.status}")
             return render_template('checkout.html', status='error',
-                                 error_message='Paiement non confirmé')
+                                 error_message=f'Paiement non confirmé (statut: {checkout_session.payment_status})')
 
     except stripe.error.StripeError as e:
         return render_template('checkout.html', status='error',
@@ -102,27 +109,32 @@ def stripe_webhook():
         )
 
         # Traiter l'événement
-        if event['type'] == 'payment_intent.succeeded':
-            payment_intent = event['data']['object']
-            # Mettre à jour le statut de la commande
-            commande_id = payment_intent.metadata.get('commande_id')
-            if commande_id:
-                commande = Commande.query.get(commande_id)
-                if commande:
-                    commande.statut = StatutCommande.PAID
-                    commande.stripe_payment_intent_id = payment_intent['id']
-                    from app import db
-                    db.session.commit()
+        if event['type'] == 'checkout.session.completed':
+            session = event['data']['object']
 
-                    # Envoyer emails de confirmation
-                    try:
-                        # Email de confirmation au client
-                        email_manager.send_order_confirmation(commande)
+            # Vérifier que le paiement est bien réussi
+            if session.get('payment_status') == 'paid':
+                # Mettre à jour le statut de la commande
+                commande_id = session.metadata.get('commande_id')
+                if commande_id:
+                    commande = Commande.query.get(commande_id)
+                    if commande:
+                        commande.statut = StatutCommande.PAID
+                        commande.stripe_payment_intent_id = session.get('payment_intent')
+                        from app import db
+                        db.session.commit()
 
-                        # Email de notification à l'admin
-                        email_manager.send_admin_notification(commande)
-                    except Exception as e:
-                        print(f"Error sending confirmation emails: {e}")
+                        # Envoyer emails de confirmation
+                        try:
+                            # Email de confirmation au client
+                            email_manager.send_order_confirmation(commande)
+
+                            # Email de notification à l'admin
+                            email_manager.send_admin_notification(commande)
+
+                            print(f"Confirmation emails sent successfully for order #{commande.id}")
+                        except Exception as e:
+                            print(f"Error sending confirmation emails: {e}")
 
         elif event['type'] == 'payment_intent.payment_failed':
             payment_intent = event['data']['object']

@@ -6,14 +6,13 @@ class OrderManager {
         this.prestations = {};
         this.currentStep = 1;
         this.currentPaireIndex = -1;
-        this.storageKey = 'conciergerie_commande_draft';
 
         this.initializeElements();
         this.bindEvents();
         this.loadPrestationsFromTemplate();
 
-        // Load saved data or create first pair
-        this.loadFromStorage();
+        // Create first pair
+        this.ajouterPaire();
     }
 
     initializeElements() {
@@ -73,7 +72,6 @@ class OrderManager {
         if (this.formCommande) {
             this.formCommande.addEventListener('input', () => {
                 this.validatePaymentForm();
-                this.saveToStorage(); // Save client info as user types
             });
         }
     }
@@ -108,7 +106,6 @@ class OrderManager {
         this.paires.push(paire);
         this.renderPaire(paire, index);
         this.updateValidationButton();
-        this.saveToStorage();
 
         // Scroll to new paire
         setTimeout(() => {
@@ -249,7 +246,6 @@ class OrderManager {
                     this.updatePaireValidationButton(paireId);
                     this.updateValidationButton();
                     this.updatePhotoVisibility(paireId);
-                    this.saveToStorage();
                 }
             });
         });
@@ -261,7 +257,6 @@ class OrderManager {
                 const paire = this.paires.find(p => p.id === paireId);
                 if (paire) {
                     paire.description = descriptionTextarea.value;
-                    this.saveToStorage();
                 }
             });
         }
@@ -325,7 +320,6 @@ class OrderManager {
         this.updateValidationButton();
         this.updateDescriptionVisibility(paireId);
         this.updatePhotoVisibility(paireId);
-        this.saveToStorage();
     }
 
     supprimerPaire(paireId) {
@@ -350,7 +344,6 @@ class OrderManager {
 
             // Update validation button
             this.updateValidationButton();
-            this.saveToStorage();
         }
     }
 
@@ -391,7 +384,6 @@ class OrderManager {
                 this.renderAllPaires();
                 this.updateValidationButton();
                 this.updatePaireValidationButton(paire.id);
-                this.saveToStorage();
             }
 
             this.photoModal.hide();
@@ -475,7 +467,6 @@ class OrderManager {
         paire.collapsed = true;
         this.renderAllPaires(); // Re-render to show collapsed view
         this.updateValidationButton(); // Update global buttons
-        this.saveToStorage();
         showToast('Paire validée avec succès', 'success');
     }
 
@@ -652,7 +643,6 @@ class OrderManager {
         // Re-render to show full view
         this.renderAllPaires();
         this.updateValidationButton();
-        this.saveToStorage(); // Save changes
 
         // Scroll to the pair
         setTimeout(() => {
@@ -681,97 +671,6 @@ class OrderManager {
         this.prestationImageModal.show();
     }
 
-    // localStorage management
-    saveToStorage() {
-        try {
-            const data = {
-                paires: this.paires,
-                currentStep: this.currentStep,
-                clientInfo: this.getClientInfo(),
-                timestamp: Date.now()
-            };
-            localStorage.setItem(this.storageKey, JSON.stringify(data));
-        } catch (error) {
-            console.warn('Failed to save to localStorage:', error);
-        }
-    }
-
-    loadFromStorage() {
-        try {
-            const savedData = localStorage.getItem(this.storageKey);
-            if (savedData) {
-                const data = JSON.parse(savedData);
-
-                // Check if data is not too old (24 hours)
-                const maxAge = 24 * 60 * 60 * 1000; // 24 hours in ms
-                if (Date.now() - data.timestamp > maxAge) {
-                    this.clearStorage();
-                    this.ajouterPaire(); // Add first pair
-                    return;
-                }
-
-                // Restore data
-                this.paires = data.paires || [];
-                this.currentStep = data.currentStep || 1;
-
-                // Store client info for later restoration BEFORE navigating
-                this.savedClientInfo = data.clientInfo;
-
-                // Restore pairs
-                if (this.paires.length > 0) {
-                    this.renderAllPaires();
-                    this.updateValidationButton();
-                    this.allerEtape(this.currentStep);
-
-                    // Update recap if on validation step
-                    if (this.currentStep === 2) {
-                        this.renderRecapitulatif();
-                    }
-
-                    showToast('Commande restaurée', 'info');
-                } else {
-                    this.ajouterPaire(); // Add first pair if none saved
-                }
-            } else {
-                this.ajouterPaire(); // Add first pair if no saved data
-            }
-        } catch (error) {
-            console.warn('Failed to load from localStorage:', error);
-            this.ajouterPaire(); // Add first pair on error
-        }
-    }
-
-    getClientInfo() {
-        if (!this.formCommande) return {};
-
-        const formData = new FormData(this.formCommande);
-        return {
-            nom: formData.get('nom') || '',
-            email: formData.get('email') || '',
-            telephone: formData.get('telephone') || '',
-            entreprise: formData.get('entreprise') || ''
-        };
-    }
-
-    setClientInfo(clientInfo) {
-        if (!this.formCommande || !clientInfo) return;
-
-        const fields = ['nom', 'email', 'telephone', 'entreprise'];
-        fields.forEach(field => {
-            const input = this.formCommande.querySelector(`[name="${field}"]`);
-            if (input && clientInfo[field]) {
-                input.value = clientInfo[field];
-            }
-        });
-    }
-
-    clearStorage() {
-        try {
-            localStorage.removeItem(this.storageKey);
-        } catch (error) {
-            console.warn('Failed to clear localStorage:', error);
-        }
-    }
 
     allerEtape(etape) {
         // Hide all steps
@@ -804,17 +703,6 @@ class OrderManager {
         if (etape === 2 || etape === 3) {
             this.renderRecapitulatif();
         }
-
-        // Restore client info when going to payment step
-        if (etape === 3 && this.savedClientInfo) {
-            this.setClientInfo(this.savedClientInfo);
-            // Validate form after DOM update
-            setTimeout(() => {
-                this.validatePaymentForm();
-            }, 50);
-        }
-
-        this.saveToStorage(); // Save current step
 
         // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -864,9 +752,6 @@ class OrderManager {
 
             // Create Stripe checkout session
             const checkoutResponse = await api.post(`/commande/${commande.id}/checkout`, {});
-
-            // Clear saved data since order is being processed
-            this.clearStorage();
 
             // Redirect to Stripe
             window.location.href = checkoutResponse.checkout_url;

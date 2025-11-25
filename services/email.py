@@ -227,7 +227,6 @@ class EmailManager:
 
                     <h3>Informations importantes :</h3>
                     <ul>
-                        <li>Nous vous contacterons sous 24h pour organiser la récupération</li>
                         <li>Délai de traitement : 3-5 jours ouvrés</li>
                         <li>Livraison directement dans votre entreprise : {commande.entreprise}</li>
                     </ul>
@@ -235,7 +234,7 @@ class EmailManager:
                     <p>Pour toute question, contactez-nous :</p>
                     <ul>
                         <li>Email : {self.from_email}</li>
-                        <li>Téléphone : 05 XX XX XX XX</li>
+                        <li>Téléphone : 07 68 85 15 88</li>
                     </ul>
                 </div>
 
@@ -270,13 +269,12 @@ class EmailManager:
         Total payé : {total:.2f} €
 
         Informations importantes :
-        - Nous vous contacterons sous 24h pour organiser la récupération
         - Délai de traitement : 3-5 jours ouvrés
         - Livraison directement dans votre entreprise : {commande.entreprise}
 
         Pour toute question, contactez-nous :
         - Email : {self.from_email}
-        - Téléphone : 05 XX XX XX XX
+        - Téléphone : 07 68 85 15 88
 
         Conciergerie Cordo - Service de cordonnerie pour entreprises
         Bordeaux • Pessac • Talence • Mérignac • Bègles • Villenave d'Ornon
